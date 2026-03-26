@@ -1,0 +1,9 @@
+.convertSelect__transition-enter-active,
+.convertSelect__transition-leave-active {
+  transition: all 0.3s ease;
+}
+
+.convertSelect__transition-enter-from,
+.convertSelect__transition-leave-to {
+  max-height: 0;
+}

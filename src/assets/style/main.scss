@@ -1,0 +1,20 @@
+
+body {
+  font-family: "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  height: 100vh;
+  background-image: linear-gradient(to bottom right, #00C0FF, #4218B8);
+}
+
+* { margin: 0; padding: 0; border: 0; box-sizing: border-box; }
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+}
+
+
