@@ -1,29 +1,120 @@
-<script setup></script>
+<script setup>
+import { CurrencyRender } from "@/api/service/currencyService";
+import BaseButton from "@/components/ui/BaseButton.vue";
+import router from "@/router";
+import { onMounted, ref } from "vue";
+
+const currency = ref([]);
+
+const currencyRenderTable = async () => {
+  try {
+    const response = await CurrencyRender();
+    const array = response.data.Valute;
+
+    currency.value = Object.values(array).map((item) => ({
+      tag: item.CharCode,
+      price: item.Value,
+    }));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  currencyRenderTable();
+});
+
+const back = () => {
+  router.push("/");
+};
+</script>
 
 <template>
-    <article class="course">
-       <header class="course__header">
-        <h1 class="course-title"></h1>
-       </header>
-       <main class="courseContent">
-        <div class="courseContent__wrapper">
-            USD RUS
+  <article class="course">
+    <header class="course__header">
+      <h2 class="course-title">Курс валюты</h2>
+    </header>
+    <div class="course__content">
+      <div class="course__сontent-wrapper">
+        <div class="course__table">
+          <table>
+            <thead>
+              <tr>
+                <th>Валюта</th>
+                <th>Курс валюты</th>
+              </tr>
+            </thead>
+            <tbody class="course__table-body">
+              <tr v-for="index in currency" :key="index">
+                <td>{{ index.tag }}</td>
+                <td>{{ index.price }}₽</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-       </main>
-    </article>
+        <BaseButton @click="back">Назад</BaseButton>
+      </div>
+    </div>
+  </article>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .course {
   display: flex;
   width: 100%;
   max-width: 537px;
-  min-height: 337px;
   gap: 12px;
   background-color: white;
-  padding: 32px 32px 0px 32px;
+  padding: 32px 32px 32px 32px;
   flex-direction: column;
   align-items: center;
   border-radius: 25px;
+
+  &__сontent-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__content {
+    width: 100%;
+  }
+
+  &__table-body {
+    overflow-y: auto;
+  }
+
+  &__table::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &__table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &__table::-webkit-scrollbar-thumb {
+    background-color: rgb(59, 59, 59);
+    border-radius: 4px;
+  }
+
+  &__table {
+    width: 100%;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 450px;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  width: 50%;
+}
+
+tr {
+  height: 35px;
 }
 </style>

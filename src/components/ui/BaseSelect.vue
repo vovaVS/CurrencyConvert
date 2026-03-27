@@ -14,7 +14,7 @@ const emit = defineEmits(["update:select"]);
 
 const selectChange = (value) =>
 {
-  emit("select", value);
+  emit("update:select", value);
   isActive.value = false;
 }
 

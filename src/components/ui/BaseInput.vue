@@ -1,17 +1,30 @@
 <script setup>
-const emit = defineEmits(['inputContent']);
+const modelValue = defineModel();
+
+defineProps({
+  placeholder: String,
+  id: String,
+  name: String,
+  type:{
+    type: String,
+    default: 'text',
+  }
+})
 </script>
 
 <template>
   <input
-    class="convertSelect__input"
-    placeholder="Введите сумму"
-    @input="emit('inputContent', $event.target.value)"
-  />
+    class="convert__input"
+    :id="id"
+    :name="id"
+    :type="type"
+    :placeholder="placeholder"
+    v-model="modelValue"
+   />
 </template>
 
 <style scoped lang="scss">
-.convertSelect__input {
+.convert__input {
   z-index: 1;
   height: 35px;
   text-align: center;

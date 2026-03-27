@@ -1,14 +1,22 @@
 <script setup>
 const emit = defineEmits(["click"]);
+
+defineProps({
+  type:{
+    default: 'button',
+    type: String,
+  },
+  disabled: Boolean,
+});
 </script>
 
 <template>
-  <button class="convert__button" @click="emit('click')"><slot></slot></button>
+  <button :type="type" :disabled="disabled" class="convert__button" @click="emit('click')"><slot/></button>
 </template>
 
 <style scoped lang="scss">
 .convert__button {
-  width: 250px;
+  width: 50%;
   height: 45px;
   border-radius: 8px;
   border: none;

@@ -4,19 +4,18 @@ import BaseSelect from "@/components/ui/BaseSelect.vue";
 import BaseInput from "@/components/ui/BaseInput.vue";
 import ConvertHeader from "@/components/convert/ConvertHeader.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseButtonRevers from "@/components/convert/BaseButtonRevers.vue";
-import { CurrencyRender } from "@/api/Service/CurrencyService";
-import { useCurrencyStore } from "@/stores/CurrencyStore";
+import BaseButtonRevers from "@/components/convert/ButtonRevers.vue";
+import { CurrencyRender } from "@/api/service/currencyService";
+import { useCurrencyStore } from "@/stores/currencyStore";
 import { validator } from "@/utils/validator";
 import router from "@/router";
 
 const useCurrency = useCurrencyStore();
-const emit = defineEmits(["select", "inputContent"]);
-const currencyData = reactive({ value: "Выберите валюту", price: 0, inputValue: 0, tag: "" });
+const currencyData = reactive({ value: "Выберите валюту", price: "", inputValue: "", tag: "" });
 const options = ref([]);
 const isActive = ref(false);
 
-const handleConvert = () => {
+const convertData = () => {
   if (validator(currencyData.inputValue, currencyData.tag, currencyData.price)) return;
   useCurrency.convert(currencyData.inputValue, currencyData.price, currencyData.tag);
 };
@@ -29,20 +28,17 @@ const reverseConvert = () => {
     useCurrency.reverse(currencyData.inputValue, currencyData.price, currencyData.tag);
     return;
   }
-  useCurrency.convert(currencyData.inputValue, currencyData.price, currencyData.tag);
+  convertData();
+};
+
+const handleConvert = () => {
+  convertData();
 };
 
 const selectChange = (select) => {
   currencyData.value = select.name;
   currencyData.tag = select.tag;
   currencyData.price = select.price;
-
-  emit("select", select);
-};
-
-const inputChange = (value) => {
-  currencyData.inputValue = value;
-  emit("inputContent", value);
 };
 
 const currencyRender = async () => {
@@ -60,6 +56,11 @@ const currencyRender = async () => {
   }
 };
 
+const cours = async () => {
+  await router.push("/course");
+  useCurrency.result = "";
+};
+
 onMounted(() => {
   currencyRender();
 });
@@ -70,15 +71,24 @@ onMounted(() => {
     <ConvertHeader />
     <div class="convert__wrapper">
       <div class="convert__choice">
-        <BaseSelect :option="options" :default_value="currencyData.value" @select="selectChange" />
+        <BaseSelect
+          :option="options"
+          :default_value="currencyData.value"
+          @update:select="selectChange"
+        />
         <BaseButtonRevers @click="reverseConvert" />
       </div>
-      <BaseInput @input-content="inputChange" v-model="currencyData.inputValue" />
+      <BaseInput
+        v-model="currencyData.inputValue"
+        id="numberInput"
+        name="numberInput"
+        placeholder="Введите сумму"
+      />
       <p class="convert__output" v-if="useCurrency.result">{{ useCurrency.result }}</p>
     </div>
     <div class="convert__response">
-      <BaseButton @click="handleConvert">Конвертация</BaseButton>
-      <BaseButton @click="router.push('/cours')">Курс</BaseButton>
+      <BaseButton :disabled="false" type="button" @click="handleConvert">Конвертация</BaseButton>
+      <BaseButton @click="cours">Курс</BaseButton>
     </div>
   </article>
 </template>
@@ -91,7 +101,7 @@ onMounted(() => {
   min-height: 337px;
   gap: 12px;
   background-color: white;
-  padding: 32px 32px 0px 32px;
+  padding: 32px 32px 32px 32px;
   flex-direction: column;
   align-items: center;
   border-radius: 25px;
@@ -107,25 +117,22 @@ onMounted(() => {
     display: flex;
     width: 100%;
     justify-content: center;
-    padding: 32px;
     gap: 20px;
+    margin-top: 30px;
   }
 
   &__choice {
     display: flex;
     gap: 20px;
   }
-  
+
   &__output {
     font-size: 1.3rem;
     text-align: center;
   }
 
   @media screen and (max-width: 375px) {
-    &__response {
-      padding: 25px 0 25px 0;
-    }
+    padding: 25px 25px 25px 25px;
   }
 }
-
 </style>
