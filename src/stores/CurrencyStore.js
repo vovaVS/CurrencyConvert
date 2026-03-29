@@ -2,16 +2,18 @@ import { ref} from "vue";
 import { defineStore } from "pinia";
 
 export const useCurrencyStore = defineStore("currency", () => {
-  
+
   const result = ref('');
-  const convert = (value, price, tag) => {
-  const calc = (value * price).toFixed(3);;
-    result.value = `${value} ${tag} = ${calc} RUB`;
+  const array = ref()
+  const convert = (object) => {
+    const calc = (object.inputValue * object.price).toFixed(3);
+    result.value = `${object.inputValue} ${object.tag} = ${calc} RUB`;
   }
 
-  const reverse = (value, price, tag)=> {
-  const calc = (value / price).toFixed(3);
-    result.value = `${value} RUB = ${calc} ${tag}`;
+  const reverse = (object)=> {
+  const calc = (object.inputValue / object.price).toFixed(3);
+    result.value = `${object.inputValue} RUB = ${calc} ${object.tag}`;
   }
+
   return { convert, useCurrencyStore, reverse, result };
 });

@@ -5,30 +5,24 @@ import BaseInput from "@/components/ui/BaseInput.vue";
 import ConvertHeader from "@/components/convert/ConvertHeader.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseButtonRevers from "@/components/convert/ButtonRevers.vue";
-import { CurrencyRender } from "@/api/service/currencyService";
 import { useCurrencyStore } from "@/stores/currencyStore";
 import { validator } from "@/utils/validator";
 import router from "@/router";
+import {CurrencyRender} from "@/api/service/currencyRender.js";
 
 const useCurrency = useCurrencyStore();
-const currencyData = reactive({ value: "Выберите валюту", price: "", inputValue: "", tag: "" });
+const currencyData = reactive({price: "", inputValue: "", tag: "" });
+const defaultValue = ref("Выберите валюту");
 const options = ref([]);
 const isActive = ref(false);
 
 const convertData = () => {
-  if (validator(currencyData.inputValue, currencyData.tag, currencyData.price)) return;
-  useCurrency.convert(currencyData.inputValue, currencyData.price, currencyData.tag);
+  return validator(currencyData) ? false : useCurrency.convert(currencyData);
 };
 
 const reverseConvert = () => {
-  if (validator(currencyData.inputValue, currencyData.tag, currencyData.price)) return;
-  isActive.value = !isActive.value;
-
-  if (isActive.value) {
-    useCurrency.reverse(currencyData.inputValue, currencyData.price, currencyData.tag);
-    return;
-  }
-  convertData();
+  const validation = validator(currencyData) ? false : isActive.value = !isActive.value;
+  return validation ? useCurrency.reverse(currencyData) : convertData();
 };
 
 const handleConvert = () => {
@@ -36,7 +30,7 @@ const handleConvert = () => {
 };
 
 const selectChange = (select) => {
-  currencyData.value = select.name;
+  defaultValue.value = select.name;
   currencyData.tag = select.tag;
   currencyData.price = select.price;
 };
@@ -45,7 +39,7 @@ const currencyRender = async () => {
   try {
     const response = await CurrencyRender();
     const array = response.data.Valute;
-
+    console.log(array);
     options.value = Object.values(array).map((item) => ({
       tag: item.CharCode,
       name: item.Name,
@@ -56,7 +50,7 @@ const currencyRender = async () => {
   }
 };
 
-const cours = async () => {
+const course = async () => {
   await router.push("/course");
   useCurrency.result = "";
 };
@@ -73,7 +67,7 @@ onMounted(() => {
       <div class="convert__choice">
         <BaseSelect
           :option="options"
-          :default_value="currencyData.value"
+          :default_value="defaultValue"
           @update:select="selectChange"
         />
         <BaseButtonRevers @click="reverseConvert" />
@@ -88,7 +82,7 @@ onMounted(() => {
     </div>
     <div class="convert__response">
       <BaseButton :disabled="false" type="button" @click="handleConvert">Конвертация</BaseButton>
-      <BaseButton @click="cours">Курс</BaseButton>
+      <BaseButton @click="course">Курс</BaseButton>
     </div>
   </article>
 </template>

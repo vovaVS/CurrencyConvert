@@ -11,7 +11,6 @@ const options_select = ref(props.default_value);
 const isActive = ref(false);
 const emit = defineEmits(["update:select"]);
 
-
 const selectChange = (value) =>
 {
   emit("update:select", value);
@@ -26,16 +25,16 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
 </script>
 
 <template>
-  <div class="convertSelect">
-    <div class="convertSelect__tab" @click="toggleSelect">{{ options_select}}</div>
-    <transition name="convertSelect__transition">
-      <div class="convertSelect__wrapper" v-if="isActive">
+  <div class="convert__select">
+    <div class="convert__select-tab" @click="toggleSelect">{{ options_select}}</div>
+    <transition name="convert__select-transition">
+      <div class="convert__select-wrapper" v-if="isActive">
         <div
-          class="convertSelect-row"
+          class="convert__select-row"
           v-for="index in option"
           :key="index"
           @click="selectChange(index)">
-          <p class="convertSelect-content">{{ index.tag }} | {{ index.name }}</p>
+          <p class="convert__select-content">{{ index.tag }} | {{ index.name }}</p>
         </div>
       </div>
     </transition>
@@ -45,11 +44,11 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
 <style scoped lang="scss">
 @use "@/assets/style/mixins" as *;
 
-.convertSelect {
+.convert__select {
   width: 100%;
   position: relative;
 
-  &__wrapper {
+  &-wrapper {
     display: block;
     width: 100%;
     flex-direction: column;
@@ -77,7 +76,7 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
     color: black;
   }
 
-  &__tab {
+  &-tab {
     display: flex;
     align-items: center;
     height: 30px;
@@ -87,24 +86,24 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
     border: 1px solid black;
   }
 
-  &__wrapper::-webkit-scrollbar {
+  &-wrapper::-webkit-scrollbar {
     width: 6px;
   }
 
-  &__wrapper::-webkit-scrollbar-track {
+  &-wrapper::-webkit-scrollbar-track {
     background: #f1f1f1;
   }
 
-  &__wrapper::-webkit-scrollbar-thumb {
+  &-wrapper::-webkit-scrollbar-thumb {
     background-color: rgb(59, 59, 59);
     border-radius: 4px;
   }
 
-  .convertSelect__transition {
+  &-transition {
     @include convertSelect-transtion();
   }
   @media screen and (max-width: 536px) {
-    &__response {
+    &-response {
       padding: 25px 0 0 0;
     }
   }

@@ -29,6 +29,7 @@ import ConvertCurrencyIcon from "../icons/ConvertCurrencyIcon.vue";
       &-title {
         display: none;
       }
+
     }
   }
 

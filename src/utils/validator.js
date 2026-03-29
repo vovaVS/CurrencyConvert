@@ -1,7 +1,6 @@
 
-export const validator = (inputValue, tag, price) =>{
-    if( !Number(inputValue) || inputValue === "" || !tag || tag === "" || !Number(price)){
-        return true;
-    }
-    return false;
+export const validator = (object) =>{
+    console.log(object);
+    return !Number(object.inputValue) || object.inputValue === "" || !object.tag ||
+      object.tag === "" || !Number(object.price);
 }

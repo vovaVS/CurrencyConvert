@@ -1,8 +1,8 @@
 <script setup>
-import { CurrencyRender } from "@/api/service/currencyService";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import router from "@/router";
 import { onMounted, ref } from "vue";
+import {CurrencyRender} from "@/api/service/currencyRender.js";
 
 const currency = ref([]);
 
@@ -85,7 +85,7 @@ const back = () => {
   }
 
   &__table::-webkit-scrollbar {
-    width: 6px;
+    width: 0;
   }
 
   &__table::-webkit-scrollbar-track {
