@@ -1,13 +1,24 @@
-import ConvertView from '@/views/ConvertView.vue'
+import ConvertView from '@/views/CurrencyView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import MenuView from "@/views/MenuView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'ConvertView',
-      component: ConvertView,
+      name: 'MenuView',
+      component: MenuView,
+    },
+    {
+      path: '/currency',
+      name: 'CurrencyView',
+      component: () => import('@/views/CurrencyView.vue')
+    },
+    {
+      path: '/width',
+      name: 'WidthView',
+      component: () => import('@/views/WidthView.vue')
     },
     {
       path: '/course',

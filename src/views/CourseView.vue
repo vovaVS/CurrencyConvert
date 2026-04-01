@@ -1,14 +1,15 @@
 <script setup>
 import BaseButton from "@/components/ui/BaseButton.vue";
 import router from "@/router";
-import { onMounted, ref } from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import {CurrencyRender} from "@/api/service/currencyRender.js";
 
 const currency = ref([]);
+const {proxy} = getCurrentInstance()
 
 const currencyRenderTable = async () => {
   try {
-    const response = await CurrencyRender();
+    const response = await CurrencyRender(proxy.$api);
     const array = response.data.Valute;
 
     currency.value = Object.values(array).map((item) => ({
@@ -24,8 +25,8 @@ onMounted(() => {
   currencyRenderTable();
 });
 
-const back = () => {
-  router.push("/");
+const back = async () => {
+  await router.push("/currency");
 };
 </script>
 
@@ -39,16 +40,16 @@ const back = () => {
         <div class="course__table">
           <table>
             <thead>
-              <tr>
-                <th>Валюта</th>
-                <th>Курс валюты</th>
-              </tr>
+            <tr>
+              <th>Валюта</th>
+              <th>Курс валюты</th>
+            </tr>
             </thead>
             <tbody class="course__table-body">
-              <tr v-for="index in currency" :key="index">
-                <td>{{ index.tag }}</td>
-                <td>{{ index.price }}₽</td>
-              </tr>
+            <tr v-for="index in currency" :key="index">
+              <td class="course__table-tag">{{ index.tag }}</td>
+              <td class="course__table-price">{{ index.price }}₽</td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -102,6 +103,16 @@ const back = () => {
     text-align: center;
     overflow-y: auto;
     max-height: 450px;
+  }
+
+  &__table-tag {
+    font-weight: bold;
+
+  }
+
+  &__table-price {
+    font-style: italic;
+
   }
 }
 

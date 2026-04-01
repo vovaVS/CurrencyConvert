@@ -15,22 +15,23 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/styles/variables" as *;
 .convert__button {
   width: 50%;
   height: 45px;
-  border-radius: 8px;
+  border-radius: $borderRadius-button;
   border: none;
-  background-color: #00b4d8;
-  color: #fff;
+  background-color: $backgroundColor-button;
+  color: $colorText-white;
   outline: none;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    
+
     transform: translateY(-3px);
     background: #48e7ea;
-    color: #ffffff;
+    color: $colorText-black;
   }
 
   &:active {

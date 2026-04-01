@@ -1,0 +1,22 @@
+.convert__select-transition-enter-active,
+.convert__select-transition-leave-active {
+  height: 250px;
+  transition: all 0.3s ease;
+}
+
+.convert__select-transition-enter-from,
+.convert__select-transition-leave-to {
+  height: 0;
+  overflow: hidden;
+}
+
+.convert__form-transition-enter-active,
+.convert__form-transition-leave-active {
+  transition: 0.5s ease;
+}
+
+.convert__form-transition-enter-from,
+.convert__form-transition-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
+}

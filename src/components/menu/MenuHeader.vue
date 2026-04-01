@@ -5,7 +5,7 @@ import ConvertCurrencyIcon from "../icons/ConvertCurrencyIcon.vue";
 <template>
   <div class="convertHeader">
     <ConvertCurrencyIcon />
-    <h1 class="convertHeader-title">CurrencyConvert</h1>
+    <h1 class="convertHeader-title">Converter</h1>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import ConvertCurrencyIcon from "../icons/ConvertCurrencyIcon.vue";
 .convertHeader {
   display: flex;
   width: 100%;
-
+  justify-content: center;
   align-items: center;
   gap: 15px;
 
@@ -23,15 +23,15 @@ import ConvertCurrencyIcon from "../icons/ConvertCurrencyIcon.vue";
 }
 
 @media screen and (max-width: 536px) {
-    .convertHeader {
-      justify-content: center;
+  .convertHeader {
+    justify-content: center;
 
-      &-title {
-        display: none;
-      }
-
+    &-title {
+      display: none;
     }
+
   }
+}
 
 
 </style>

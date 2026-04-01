@@ -1,8 +1,7 @@
-import {API} from "@/plugins/axiosApi.js";
 
-export const CurrencyRender = async () => {
+export const CurrencyRender = async (api) => {
   try {
-    return API.get("/daily_json.js");
+    return api.get("/daily_json.js");
   } catch (error) {
     console.log(error);
   }

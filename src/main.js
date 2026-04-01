@@ -1,4 +1,4 @@
-import '@/assets/style/main.scss'
+import '@/assets/styles/main.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -11,7 +11,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(axiosApi)
-
+app.use(axiosApi, {baseURL: 'https://www.cbr-xml-daily.ru'})
 
 app.mount('#app')

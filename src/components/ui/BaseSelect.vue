@@ -1,18 +1,17 @@
 <script setup>
-import {ref, watch } from "vue";
+import {ref, watch} from "vue";
 
 const props = defineProps({
   option: Array,
-  default_value: String,
+  defaultValue: String,
 });
 
-const options_select = ref(props.default_value);
+const options_select = ref(props.defaultValue);
 
 const isActive = ref(false);
 const emit = defineEmits(["update:select"]);
 
-const selectChange = (value) =>
-{
+const selectChange = (value) => {
   emit("update:select", value);
   isActive.value = false;
 }
@@ -21,14 +20,16 @@ const toggleSelect = () => {
   isActive.value = !isActive.value;
 };
 
-watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
+watch(() => props.defaultValue, (newVal) => {
+  options_select.value = newVal;
+});
 </script>
 
 <template>
   <div class="convert__select">
-    <div class="convert__select-tab" @click="toggleSelect">{{ options_select}}</div>
-    <transition name="convert__select-transition">
-      <div class="convert__select-wrapper" v-if="isActive">
+    <div class="convert__select-tab" @click="toggleSelect">{{ options_select }}</div>
+    <transition name="convert__select-transition" mode="out-in">
+      <div class="convert__select-wrapper" v-show="isActive">
         <div
           class="convert__select-row"
           v-for="index in option"
@@ -42,7 +43,7 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
 </template>
 
 <style scoped lang="scss">
-@use "@/assets/style/mixins" as *;
+@use "@/assets/styles/variables" as *;
 
 .convert__select {
   width: 100%;
@@ -67,13 +68,19 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
     align-items: center;
     gap: 15px;
     height: 45px;
-    padding-left: 25px;
-    font-size: 0.8rem;
+    padding-left: $paddingLeft-select;
+    font-size: $fontsize;
+
+    @media screen and (max-width: 536px) {
+      padding-left: 10px;
+      text-align: initial;
+      font-size: 0.7rem;
+    }
   }
 
   &-row:hover {
     background-color: #fff;
-    color: black;
+    color: $colorText-black;
   }
 
   &-tab {
@@ -81,13 +88,18 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
     align-items: center;
     height: 30px;
     color: black;
-    font-size: 0.8rem;
-    padding-left: 25px;
+    font-size: $fontsize;
+    padding-left: $paddingLeft-select;
     border: 1px solid black;
+
+    @media screen and (max-width: 536px) {
+      padding-left: 10px;
+    }
   }
 
   &-wrapper::-webkit-scrollbar {
     width: 6px;
+    display: none;
   }
 
   &-wrapper::-webkit-scrollbar-track {
@@ -99,9 +111,6 @@ watch(()=> props.default_value, (newVal)=>{options_select.value = newVal});
     border-radius: 4px;
   }
 
-  &-transition {
-    @include convertSelect-transtion();
-  }
   @media screen and (max-width: 536px) {
     &-response {
       padding: 25px 0 0 0;

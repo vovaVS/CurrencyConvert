@@ -9,11 +9,13 @@ const emit = defineEmits(["click"]);
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/styles/variables" as *;
 .convert__button-reverse {
   width: 30px;
   height: 30px;
   background: none;
   border: none;
+  font-size: $fontsize;
 
   &:hover {
     fill: brown;

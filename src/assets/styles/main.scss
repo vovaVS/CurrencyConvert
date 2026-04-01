@@ -1,10 +1,11 @@
-@use "@/assets/style/animations.scss" as *;
+@use "@/assets/styles/animations" as *;
+@use "@/assets/styles/variables" as *;
+
 body {
   font-family: "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size: 15px;
   text-rendering: optimizeLegibility;
   height: 100vh;
-  background: linear-gradient(151deg, #0EA5E9 0%, #43d0c7 60%);
+  background: $backgroundColor-app;
 }
 
 * { margin: 0; padding: 0; border: 0; box-sizing: border-box; }
@@ -14,7 +15,7 @@ body {
   font-weight: normal;
   display: flex;
   justify-content: center;
-  padding: 25px;
+  padding: $padding-app;
 }
 
 
