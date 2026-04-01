@@ -5,7 +5,7 @@ import BaseInput from "@/components/ui/BaseInput.vue";
 import CurrencyHeader from "@/components/currency/CurrencyHeader.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseButtonRevers from "@/components/currency/ButtonRevers.vue";
-import {useConvert} from "@/composible/useConvert";
+import {useConvert} from "@/composable/useConvert";
 import {validator} from "@/utils/validator";
 import router from "@/router";
 import {CurrencyRender} from "@/api/service/currencyRender";

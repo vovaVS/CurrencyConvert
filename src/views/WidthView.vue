@@ -1,58 +1,64 @@
-<script setup>
+<script setup lang="ts">
 import BaseSelect from "@/components/ui/BaseSelect.vue";
 import MenuHeader from "@/components/menu/MenuHeader.vue";
 import {reactive} from "vue";
-import {unitsWidth} from "@/constains/unitsWidth";
+import {unitsWidth} from "@/constants/unitsWidth";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseInput from "@/components/ui/BaseInput.vue";
-import router from "@/router/index.js";
-import {useConvert} from "@/composible/useConvert.js";
+import {useConvert} from "@/composable/useConvert.js";
+import {useRouter} from "vue-router";
 
-const onSelect = reactive({ label: 'Выберите валюту', tag: '', value: ''});
-const twoSelect = reactive({label: 'Выберите валюту', tag: '', inputValue: '', value: ''});
+const selectsData = reactive([
+  {
+    label: 'Выберите валюту',
+    tag: '',
+    value: ''
+  },
+  {
+    label: 'Выберите валюту',
+    tag: '',
+    inputValue: '',
+    value: ''
+  }
+])
+
 const {result, convert} = useConvert();
 
-const convertData = ()=>
-{
-  console.log(twoSelect.tag, onSelect.tag);
-  return convert(twoSelect, onSelect.value, onSelect.tag);
+const router = useRouter();
+
+const convertData = () => {
+  return convert(selectsData[1], selectsData[0].value, selectsData[0].tag);
 }
 
-const backMenu =  () => {
-  router.push("/");
-  console.log(router.push("/"))
+const backMenu = async () => {
+  await router.push("/");
 }
 
-const widthChangeOne = (value) =>
-{
-  onSelect.label = `${value.tag} | ${value.name}`;
-  onSelect.tag= value.tag;
-  onSelect.value= value.value;
+const widthChange = (index, value) => {
+  console.log(index, value)
+  selectsData[index].label = `${value.tag} | ${value.name}`;
+  selectsData[index].tag = value.tag;
+  selectsData[index].value = value.value;
 }
-
-const widthChangeTwo = (width) =>
-{
-  twoSelect.label = `${width.tag} | ${width.name}`;
-  twoSelect.tag = width.tag;
-  twoSelect.value = width.value;
-}
-
 </script>
+
 <template>
   <article class="convert__width">
     <MenuHeader/>
     <div class="convert__width-wrapper">
       <div class="convert__width-choice">
-        <BaseSelect :defaultValue="onSelect.label" :option="unitsWidth" @update:select="widthChangeOne"/>
-        <BaseSelect :defaultValue="twoSelect.label" :option="unitsWidth" @update:select="widthChangeTwo"/>
+        <BaseSelect :defaultValue="selectsData[0].label" :option="unitsWidth"
+                    @update:select="args => widthChange(0, args)"/>
+        <BaseSelect :defaultValue="selectsData[1].label" :option="unitsWidth"
+                    @update:select="args => widthChange(1, args)"/>
         <BaseInput
           id="numberInput"
           name="numberInput"
           placeholder="Введите сумму"
-          v-model="twoSelect.inputValue"
+          v-model="selectsData[1].inputValue"
         />
       </div>
-      <p class="convert__width-output">{{result}}</p>
+      <p class="convert__width-output">{{ result }}</p>
       <div class="convert__width-response">
         <BaseButton @click="backMenu">Назад</BaseButton>
         <BaseButton @click="convertData">Конвертация</BaseButton>
