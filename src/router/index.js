@@ -16,9 +16,19 @@ const router = createRouter({
       component: () => import('@/views/CurrencyView.vue')
     },
     {
+      path: '/weight',
+      name: 'WeightView',
+      component: () => import('@/views/WeightView.vue')
+    },
+    {
       path: '/width',
       name: 'WidthView',
       component: () => import('@/views/WidthView.vue')
+    },
+    {
+      path: '/time',
+      name: 'TimeView',
+      component: () => import('@/views/TimeView.vue'),
     },
     {
       path: '/course',

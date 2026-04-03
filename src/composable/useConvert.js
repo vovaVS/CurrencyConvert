@@ -2,18 +2,12 @@ import {ref} from "vue";
 
 export const useConvert = () => {
 
-  const result = ref('');
+  const result = ref(0);
 
-  const convert = (object, value_select, default_tag) => {
+  const convert = (object, value_select) => {
     const meters = object.inputValue * value_select;
-    const calc = (meters / object.value);
-    result.value = `${object.inputValue} ${default_tag} = ${calc} ${object.tag}`;
+    result.value = (meters / object.value);
   }
-
-  const reverse = (object, default_tag) => {
-    const calc = (object.inputValue / object.value);
-    result.value = `${object.inputValue} ${default_tag} = ${calc} ${object.tag}`;
-  }
-  return {useConvert, convert, reverse, result};
+  return {useConvert, convert, result};
 }
 

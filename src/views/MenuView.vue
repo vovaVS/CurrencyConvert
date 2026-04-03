@@ -1,17 +1,19 @@
 <script setup>
 import BaseSelect from "@/components/ui/BaseSelect.vue";
-import MenuHeader from "@/components/menu/MenuHeader.vue";
+import ConvertHeader from "@/components/ConvertHeader.vue";
 import {reactive, ref} from "vue";
-import router from "@/router/index";
+import {useRouter} from "vue-router";
 import BaseButton from "@/components/ui/BaseButton.vue";
 
-const defaultValue = ref("Что будем конвертировать....дружок?");
 const menu = reactive([
-  {name: 'Валюта', path: '/currency'},
-  {name: 'Длина', path: '/width'},
+  {name: 'Валюту', path: '/currency'},
+  {name: 'Длину', path: '/width'},
   {name: 'Время', path: '/time'},
-  {name: 'Масса', path: '/weigth'}]);
+  {name: 'Массу', path: '/weight'}]);
 
+const router = useRouter();
+const isActive = ref(true);
+const defaultValue = ref("Что будем конвертировать?");
 const menuData = reactive({path: ''});
 
 const pathNavigation = (value) =>
@@ -19,16 +21,22 @@ const pathNavigation = (value) =>
   menuData.path = value.path;
   router.push(menuData.path)
 }
+
+const close = () => {
+  isActive.value = false;
+  console.log(isActive.value)
+}
 </script>
 
 <template>
-    <article class="convert">
-      <MenuHeader/>
+    <article class="convert" v-if="isActive">
+      <ConvertHeader/>
       <div class="convert__wrapper">
         <div class="convert__choice">
-          <BaseSelect :defaultValue="defaultValue" :option="menu" @update:select="pathNavigation"/>
+          <BaseSelect :defaultValue="defaultValue" :option="menu" @update:select="pathNavigation" @cancel="isActive"/>
         </div>
       </div>
+      <BaseButton @click="close">Закрыть</BaseButton>
     </article>
 </template>
 
@@ -52,6 +60,7 @@ const pathNavigation = (value) =>
         width: 100%;
         grid-template-columns: 2fr;
         gap: 15px;
+        padding-bottom: 70px;
       }
 
       &__response {

@@ -5,14 +5,17 @@ const props = defineProps({
   option: Array,
   defaultValue: String,
 });
-
-const options_select = ref(props.defaultValue);
-
-const isActive = ref(false);
 const emit = defineEmits(["update:select"]);
+const options_select = ref(props.defaultValue);
+const isActive = ref(false);
 
 const selectChange = (value) => {
   emit("update:select", value);
+  isActive.value = false;
+}
+
+const focusFalse = ()=>
+{
   isActive.value = false;
 }
 
@@ -27,7 +30,7 @@ watch(() => props.defaultValue, (newVal) => {
 
 <template>
   <div class="convert__select">
-    <div class="convert__select-tab" @click="toggleSelect">{{ options_select }}</div>
+    <div class="convert__select-tab" tabindex="0" @click="toggleSelect" @focusout="focusFalse">{{ options_select }}</div>
     <transition name="convert__select-transition" mode="out-in">
       <div class="convert__select-wrapper" v-show="isActive">
         <div

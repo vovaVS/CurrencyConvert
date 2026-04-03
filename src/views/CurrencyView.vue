@@ -2,43 +2,32 @@
 import {ref, onMounted, reactive, getCurrentInstance} from "vue";
 import BaseSelect from "@/components/ui/BaseSelect.vue";
 import BaseInput from "@/components/ui/BaseInput.vue";
-import CurrencyHeader from "@/components/currency/CurrencyHeader.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseButtonRevers from "@/components/currency/ButtonRevers.vue";
 import {useConvert} from "@/composable/useConvert";
 import {validator} from "@/utils/validator";
-import router from "@/router";
 import {CurrencyRender} from "@/api/service/currencyRender";
+import {useRouter} from "vue-router";
+import ConvertHeader from "@/components/ConvertHeader.vue";
 
-let {convert, result, reverse} = useConvert();
+let {convert, result} = useConvert();
 
-const currencyData = reactive({value: "", inputValue: "", tag: ""});
-const currencyData_1 = reactive({value: "", inputValue: "", tag: ""});
-const placeholderSelect = reactive({selectOne: "Выберите валюту", selectTwo: "Выберите валюту"});
+const currencyData = reactive([
+  {value: "", label: "Выберите валюту", inputValue: "", tag: ""},
+  {value: "", label: "Выберите валюту", inputValue: "", tag: ""}]);
+
 const options = ref([]);
-const isActive = ref(false);
 const {proxy} = getCurrentInstance();
+const router = useRouter();
 
 const convertData = () => {
-  console.log(currencyData, currencyData_1.value)
-  return validator(currencyData) ? false : convert(currencyData, currencyData_1.value, currencyData_1.tag);
+  console.log(result)
+  return validator(currencyData[1]) ? false : convert(currencyData[1], currencyData[0].value);
 };
 
-const reverseConvert = () => {
-  const validation = validator(currencyData) ? false : isActive.value = !isActive.value;
-  return validation ? reverse(currencyData, 'RUB') : convertData();
-};
-
-const selectChangeOne = (select) => {
-  placeholderSelect.selectOne = `${select.tag} | ${select.name}`;
-  currencyData_1.tag = select.tag;
-  currencyData_1.value = select.value;
-};
-
-const selectChangeTwo = (select) => {
-  placeholderSelect.selectTwo = `${select.tag} | ${select.name}`;
-  currencyData.tag = select.tag;
-  currencyData.value = select.value;
+const selectChange = (index, value) => {
+  currencyData[index].label = `${value.tag} | ${value.name}`;
+  currencyData[index].tag = value.tag;
+  currencyData[index].value = value.value;
 };
 
 const currencyRender = async () => {
@@ -73,28 +62,28 @@ onMounted(() => {
 
 <template>
   <article class="convert__currency">
-    <CurrencyHeader/>
+    <ConvertHeader/>
     <div class="convert__currency-wrapper">
       <div class="convert__currency-choice">
         <BaseSelect
           :option="options"
-          :defaultValue="placeholderSelect.selectOne"
-          @update:select="selectChangeOne"
+          :defaultValue="currencyData[0].label"
+          @update:select="args => selectChange(0, args)"
         />
-        <BaseButtonRevers @click="reverseConvert"/>
         <BaseSelect
           :option="options"
-          :defaultValue="placeholderSelect.selectTwo"
-          @update:select="selectChangeTwo"
+          :defaultValue="currencyData[1].label"
+          @update:select="args => selectChange(1, args)"
         />
       </div>
       <BaseInput
-        v-model="currencyData.inputValue"
+        v-model="currencyData[1].inputValue"
         id="numberInput"
         name="numberInput"
         placeholder="Введите сумму"
       />
-      <p class="convert__currency-output" v-if="result">{{result }}</p>
+      <p class="convert__currency-output" v-if="result">{{
+          `${currencyData[1].inputValue} ${currencyData[0].tag} = ${result} ${currencyData[1].tag}`}}</p>
     </div>
     <div class="convert__currency-response">
       <BaseButton @click="backMenu">Назад</BaseButton>

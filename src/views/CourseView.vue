@@ -1,11 +1,12 @@
 <script setup>
 import BaseButton from "@/components/ui/BaseButton.vue";
-import router from "@/router";
 import {getCurrentInstance, onMounted, ref} from "vue";
 import {CurrencyRender} from "@/api/service/currencyRender.js";
+import {useRouter} from "vue-router";
 
 const currency = ref([]);
 const {proxy} = getCurrentInstance()
+const router = useRouter();
 
 const currencyRenderTable = async () => {
   try {

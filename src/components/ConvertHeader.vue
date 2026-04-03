@@ -1,5 +1,5 @@
 <script setup lang="js">
-import ConvertCurrencyIcon from "../icons/ConvertCurrencyIcon.vue";
+import ConvertCurrencyIcon from "./icons/ConvertCurrencyIcon.vue";
 </script>
 
 <template>
