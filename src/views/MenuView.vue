@@ -46,14 +46,14 @@ const close = () => {
     .convert {
       display: flex;
       width: 100%;
-      max-width: $max-widthForm;
+      max-width: $max-width-form;
       min-height: 337px;
       gap: 12px;
       background-color: white;
       padding: $padding-form;
       flex-direction: column;
       align-items: center;
-      border-radius: $borderRadius-button;
+      border-radius: $border-radius-button;
 
       &__wrapper {
         display: grid;

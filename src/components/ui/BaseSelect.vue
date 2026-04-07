@@ -71,8 +71,8 @@ watch(() => props.defaultValue, (newVal) => {
     align-items: center;
     gap: 15px;
     height: 45px;
-    padding-left: $paddingLeft-select;
-    font-size: $fontsize;
+    padding-left: $padding-left-select;
+    font-size: $default-fonts-size;
 
     @media screen and (max-width: 536px) {
       padding-left: 10px;

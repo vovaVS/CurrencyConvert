@@ -19,10 +19,10 @@ defineProps({
 .convert__button {
   width: 50%;
   height: 45px;
-  border-radius: $borderRadius-button;
+  border-radius: $border-radius-button;
   border: none;
-  background-color: $backgroundColor-button;
-  color: $colorText-white;
+  background-color: $background-color-button;
+  color: $color-text-white;
   outline: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -31,7 +31,7 @@ defineProps({
 
     transform: translateY(-3px);
     background: #48e7ea;
-    color: $colorText-black;
+    color: $color-text-black;
   }
 
   &:active {

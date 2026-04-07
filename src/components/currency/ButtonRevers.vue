@@ -15,7 +15,7 @@ const emit = defineEmits(["click"]);
   height: 30px;
   background: none;
   border: none;
-  font-size: $fontsize;
+  font-size: $default-fonts-size;
 
   &:hover {
     fill: brown;
